@@ -1,28 +1,29 @@
 import { Router, Request, Response } from 'express';
 
-import UserRepository from '../repositories/UsersRepository';
+import UsersRepository from '../repositories/UsersRepository';
+import CreateUserService from '../services/CreateUserService';
 
 const usersRouter: Router = Router();
-const userRepository = new UserRepository();
+const usersRepository = new UsersRepository();
 
 usersRouter.get('/', (req: Request, res: Response) => {
-  const users = userRepository.list();
+  const users = usersRepository.list();
 
   return res.json(users);
 });
 
 usersRouter.post('/', (req: Request, res: Response) => {
-  const { name, email, password } = req.body;
+  try {
+    const { name, email, password } = req.body;
 
-  const findExistingUser = userRepository.find({ name, email });
+    const createUser = new CreateUserService(usersRepository);
 
-  if (findExistingUser) {
-    return res.status(400).json({ error: 'Name or email already used.' });
+    const user = createUser.execute({ name, email, password });
+
+    return res.json(user);
+  } catch (err: any) {
+    return res.status(400).json({ error: err.message });
   }
-
-  const user = userRepository.create({ name, email, password });
-
-  return res.json(user);
 });
 
 export default usersRouter;
