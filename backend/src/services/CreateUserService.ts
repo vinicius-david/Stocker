@@ -8,20 +8,18 @@ interface Request {
 }
 
 class CreateUserService {
-  private usersRepository;
+  public async execute({ name, email, password }: Request): Promise<User> {
+    const usersRepository = UsersRepository;
 
-  constructor(usersRepository: UsersRepository) {
-    this.usersRepository = usersRepository;
-  }
-
-  public execute({ name, email, password }: Request): User {
-    const findExistingUser = this.usersRepository.find({ name, email });
+    const findExistingUser = await usersRepository.findByNameOrEmail({ name, email });
 
     if (findExistingUser) {
       throw Error('Name or email already used.');
     }
 
-    const user = this.usersRepository.create({ name, email, password });
+    const user = usersRepository.create({ name, email, password });
+
+    await usersRepository.save(user);
 
     return user;
   }

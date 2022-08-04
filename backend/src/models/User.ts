@@ -1,20 +1,18 @@
-import { uuid } from 'uuidv4';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
+@Entity('users')
 class User {
-  id: string;
+  @PrimaryGeneratedColumn('uuid')
+    id: string;
 
-  name: string;
+  @Column()
+    name: string;
 
-  email: string;
+  @Column()
+    email: string;
 
-  password: string;
-
-  constructor({ name, email, password }: Omit<User, 'id'>) {
-    this.id = uuid();
-    this.name = name;
-    this.email = email;
-    this.password = password;
-  }
+  @Column()
+    password: string;
 }
 
 export default User;

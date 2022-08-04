@@ -4,21 +4,21 @@ import UsersRepository from '../repositories/UsersRepository';
 import CreateUserService from '../services/CreateUserService';
 
 const usersRouter: Router = Router();
-const usersRepository = new UsersRepository();
 
-usersRouter.get('/', (req: Request, res: Response) => {
-  const users = usersRepository.list();
+usersRouter.get('/', async (req: Request, res: Response) => {
+  const usersRepository = UsersRepository;
+  const users = await usersRepository.find();
 
   return res.json(users);
 });
 
-usersRouter.post('/', (req: Request, res: Response) => {
+usersRouter.post('/', async (req: Request, res: Response) => {
   try {
     const { name, email, password } = req.body;
 
-    const createUser = new CreateUserService(usersRepository);
+    const createUser = new CreateUserService();
 
-    const user = createUser.execute({ name, email, password });
+    const user = await createUser.execute({ name, email, password });
 
     return res.json(user);
   } catch (err: any) {
