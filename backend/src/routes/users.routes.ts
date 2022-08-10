@@ -1,18 +1,18 @@
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
 
 import UsersRepository from '../repositories/UsersRepository';
 import CreateUserService from '../services/CreateUserService';
 
 const usersRouter: Router = Router();
 
-usersRouter.get('/', async (req: Request, res: Response) => {
+usersRouter.get('/', async (req, res) => {
   const usersRepository = UsersRepository;
   const users = await usersRepository.find();
 
   return res.json(users);
 });
 
-usersRouter.post('/', async (req: Request, res: Response) => {
+usersRouter.post('/', async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
