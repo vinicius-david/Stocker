@@ -1,15 +1,40 @@
 import { Router } from 'express';
 
-import UsersRepository from '../repositories/UsersRepository';
+import ListUsersService from '../services/ListUsersService';
+import FindUserService from '../services/FindUserService';
 import CreateUserService from '../services/CreateUserService';
+import AddOrRemoveStockService from '../services/AddOrRemoveStockService';
+import UpdateUserService from '../services/UpdateUserService';
 
 const usersRouter: Router = Router();
 
 usersRouter.get('/', async (req, res) => {
-  const usersRepository = UsersRepository;
-  const users = await usersRepository.find();
+  try {
+    const listUsers = new ListUsersService();
 
-  return res.json(users);
+    const users = await listUsers.execute();
+
+    return res.json(users);
+  } catch (err: any) {
+    return res.status(400).json({ error: err.message });
+  }
+});
+
+usersRouter.get('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const findUser = new FindUserService();
+
+    const user = await findUser.execute({ id });
+
+    return res.json({
+      ...user,
+      password: null,
+    });
+  } catch (err: any) {
+    return res.status(400).json({ error: err.message });
+  }
 });
 
 usersRouter.post('/', async (req, res) => {
@@ -19,6 +44,45 @@ usersRouter.post('/', async (req, res) => {
     const createUser = new CreateUserService();
 
     const user = await createUser.execute({ name, email, password });
+
+    return res.json({
+      ...user,
+      password: null,
+    });
+  } catch (err: any) {
+    return res.status(400).json({ error: err.message });
+  }
+});
+
+usersRouter.patch('/:id/stock/:stockId', async (req, res) => {
+  try {
+    const { id, stockId } = req.params;
+
+    const addOrRemoveStock = new AddOrRemoveStockService();
+
+    const user = await addOrRemoveStock.execute({ id, stockId });
+
+    return res.json({
+      ...user,
+      password: null,
+    });
+  } catch (err: any) {
+    return res.status(400).json({ error: err.message });
+  }
+});
+
+usersRouter.put('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      name, email, password, newPassword,
+    } = req.body;
+
+    const updateUser = new UpdateUserService();
+
+    const user = await updateUser.execute({
+      id, name, email, password, newPassword,
+    });
 
     return res.json({
       ...user,
