@@ -4,21 +4,23 @@ import UsersRepository from '../repositories/UsersRepository';
 import AppError from '../errors/AppError';
 
 interface Request {
-  id: string;
+  userId: string;
   stockId: string;
 }
 
 class AddOrRemoveStockService {
-  public async execute({ id, stockId }: Request): Promise<User> {
+  public async execute({ userId, stockId }: Request): Promise<User> {
     const usersRepository = UsersRepository;
 
-    const user = await usersRepository.findOne({ where: { id } });
+    const user = await usersRepository.findOne({ where: { id: userId } });
 
     if (!user) {
       throw new AppError('User not found.');
     }
 
     // TODO: find stock object to verify id;
+
+    user.stocks = user.stocks ? user.stocks : [];
 
     const stockIndex = user.stocks.findIndex(stock => stock === stockId);
 
@@ -27,6 +29,8 @@ class AddOrRemoveStockService {
     } else {
       user.stocks.push(stockId);
     }
+
+    await usersRepository.save(user);
 
     return user;
   }

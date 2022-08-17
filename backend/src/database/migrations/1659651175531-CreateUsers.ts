@@ -32,7 +32,6 @@ export default class CreateUsers1659651175531 implements MigrationInterface {
             name: 'stocks',
             type: 'varchar',
             isArray: true,
-            isNullable: true,
           },
           {
             name: 'createdAt',
@@ -50,8 +49,6 @@ export default class CreateUsers1659651175531 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    queryRunner.dropForeignKey('users', 'UserStocks');
-
     await queryRunner.dropTable('users');
   }
 }

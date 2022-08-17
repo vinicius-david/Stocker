@@ -14,7 +14,7 @@ usersRouter.get('/', async (req, res) => {
 
     const users = await listUsers.execute();
 
-    return res.json(users);
+    return res.json(users.map(user => ({ ...user, password: null })));
   } catch (err: any) {
     return res.status(400).json({ error: err.message });
   }
@@ -54,13 +54,13 @@ usersRouter.post('/', async (req, res) => {
   }
 });
 
-usersRouter.patch('/:id/stock/:stockId', async (req, res) => {
+usersRouter.patch('/stock/', async (req, res) => {
   try {
-    const { id, stockId } = req.params;
+    const { userId, stockId } = req.body;
 
     const addOrRemoveStock = new AddOrRemoveStockService();
 
-    const user = await addOrRemoveStock.execute({ id, stockId });
+    const user = await addOrRemoveStock.execute({ userId, stockId });
 
     return res.json({
       ...user,

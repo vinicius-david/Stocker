@@ -16,7 +16,7 @@ class User {
   @Column()
     password: string;
 
-  @Column()
+  @Column('varchar', { array: true })
     stocks: string[];
 
   @CreateDateColumn()

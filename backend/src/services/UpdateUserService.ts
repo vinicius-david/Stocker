@@ -33,7 +33,7 @@ class UpdateUserService {
 
     user.name = name || user.name;
 
-    if (email) {
+    if (email && email !== user.email) {
       const findExistingUser = await usersRepository.findByNameOrEmail({ email });
 
       if (findExistingUser) {
