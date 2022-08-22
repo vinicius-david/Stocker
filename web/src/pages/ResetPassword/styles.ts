@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import loginBackground from '../../assets/loginBackground.jpeg';
 
 export const FormContainer = styled.div`
-  width: 25vw;
+  width: 26vw;
   height: 50vh;
-  padding: 32px 40px;
+  padding: 24px 24px;
   border-radius: 12px;
   box-shadow: 4px 4px 5px #333;
   background: var(--color-background);
@@ -19,6 +19,7 @@ export const FormContainer = styled.div`
   z-index: 2;
 
   h2 {
+    align-self: center;
     font-size: 28px;
     margin-bottom: 15%;
     margin-left: 5%;
@@ -36,15 +37,14 @@ export const FormContainer = styled.div`
     flex-direction: column;
     align-items: center;
 
-    width: 90%;
+    width: 100%;
 
     div {
       width: 90%;
-      margin-top: 5%;
     }
 
     button {
-      height: 40%;
+      height: 25%;
       width: 90%;
     }
   }

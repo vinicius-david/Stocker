@@ -19,6 +19,9 @@ export const Container = styled.div<ContainerProps>`
   border: 2px solid var(--color-input-background);
   color: var(--color-primary-light);
 
+  margin-top: 16px;
+  height: 48px;
+
   &:hover {
     transition: 300ms;
     border-color: var(--color-primary-dark);
@@ -58,13 +61,15 @@ export const Container = styled.div<ContainerProps>`
 `;
 
 export const Error = styled(Tooltip)`
-  height: 20px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: end;
 
   svg {
-    margin-right: 12px;
   }
 
   span {
+    margin-left: 40%;
     background: ${shade(0.3, '#c53030')};
     color: #eee;
 

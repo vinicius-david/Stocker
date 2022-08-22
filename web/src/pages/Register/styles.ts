@@ -15,7 +15,7 @@ const animateDown = keyframes`
 
 export const FormContainer = styled.div`
   width: 26vw;
-  height: 50vh;
+  height: 55vh;
   padding: 24px 24px;
   border-radius: 12px;
   box-shadow: 4px 4px 5px #333;
@@ -51,11 +51,10 @@ export const FormContainer = styled.div`
     width: 100%;
     div {
       width: 90%;
-      margin-top: 16px;
     }
 
     button {
-      height: 30%;
+      height: 15%;
       width: 90%;
     }
   }

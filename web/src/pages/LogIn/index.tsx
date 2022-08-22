@@ -3,6 +3,9 @@ import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import { FiMail, FiLock } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
+import * as Yup from 'yup';
+
+import getValidationErrors from '../../utils/getValidationErrors';
 
 import Header from '../../components/Header';
 import Input from '../../components/Input';
@@ -13,8 +16,24 @@ import { FormContainer, LinksContainer, Background } from './styles';
 const LogIn: React.FC = () => {
   const logInFormRef = useRef<FormHandles>(null);
 
-  const handleSubmit = useCallback(() => {
-    console.log('data');
+  const handleSubmit = useCallback(async (data: Record<string, unknown>) => {
+    try {
+      const schema = Yup.object().shape({
+        email: Yup.string()
+          .required('E-mail is required')
+          .email('E-mail must be valid'),
+        password: Yup.string().min(3, 'At leats 3 digits'),
+      });
+
+      await schema.validate(data, {
+        abortEarly: false,
+      });
+    } catch (err) {
+      const anyError: any = err;
+      const errors = getValidationErrors(anyError);
+
+      logInFormRef.current?.setErrors(errors);
+    }
   }, []);
 
   return (

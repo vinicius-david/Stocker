@@ -20,26 +20,26 @@ const ResetPassword: React.FC = () => {
     <>
       <Header />
       <FormContainer>
-        <h2>Redefinir senha</h2>
+        <h2>Reset password</h2>
 
         <strong>
-          Defina uma nova senha para ter acesso ao Stocker novamente.
+          Define a new password to recover your access to Stocker.
         </strong>
         <Form ref={logInFormRef} onSubmit={handleSubmit}>
           <Input
             name="password"
             type="password"
             icon={FiLock}
-            placeholder="Escolha uma nova senha"
+            placeholder="New password"
           />
           <Input
             name="password-confirmation"
             type="password"
             icon={FiLock}
-            placeholder="Confirme sua senha"
+            placeholder="Repeat password"
           />
 
-          <Button type="submit">Redefinir</Button>
+          <Button type="submit">Reset</Button>
         </Form>
       </FormContainer>
       <Background />

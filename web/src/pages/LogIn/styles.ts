@@ -59,9 +59,9 @@ export const FormContainer = styled.div`
     align-items: center;
 
     width: 100%;
+
     div {
       width: 90%;
-      margin-top: 16px;
     }
 
     button {
