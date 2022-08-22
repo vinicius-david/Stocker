@@ -2,11 +2,11 @@ import { createGlobalStyle } from 'styled-components';
 
 export default createGlobalStyle`
   :root {
-  --color-background: #edf8ff;
+  --color-background: rgba(238, 254, 255, 0.85); // eefeff
   --color-background-dark: #4C585F;
   --color-primary-light: #B4BBF0;
   --color-primary: #7777BC;
-  --color-primary-dark: #6666aa;
+  --color-primary-dark: #555599;
   --color-text-title: #E0E0E0;
   --color-text-complement: #E3D9D9;
   --color-text-base: #151718;

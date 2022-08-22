@@ -21,30 +21,30 @@ const Register: React.FC = () => {
     <>
       <Header />
       <FormContainer>
-        <h2>Bem vindo(a) ao Stocker!</h2>
+        <h2>Welcome to Stocker!</h2>
 
-        <strong>Cadastro</strong>
+        <strong>Register</strong>
         <Form ref={logInFormRef} onSubmit={handleSubmit}>
-          <Input name="name" icon={FiUser} placeholder="Digite seu nome" />
-          <Input name="email" icon={FiMail} placeholder="Digite seu email" />
+          <Input name="name" icon={FiUser} placeholder="Name" />
+          <Input name="email" icon={FiMail} placeholder="E-mail" />
           <Input
             name="password"
             type="password"
             icon={FiLock}
-            placeholder="Escolha uma senha"
+            placeholder="Password"
           />
           <Input
             name="password-confirmation"
             type="password"
             icon={FiLock}
-            placeholder="Confirme sua senha"
+            placeholder="Repeat password"
           />
-          <Button type="submit">Cadastrar</Button>
+          <Button type="submit">Register</Button>
         </Form>
 
         <LinksContainer>
           <FiArrowLeft size={20} />
-          <Link to="/login">Voltar ao login</Link>
+          <Link to="/login">Back to login</Link>
         </LinksContainer>
       </FormContainer>
       <Background />

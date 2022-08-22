@@ -21,21 +21,21 @@ const ForgotPassword: React.FC = () => {
     <>
       <Header />
       <FormContainer>
-        <h2>Recuperar senha</h2>
+        <h2>Forgot password</h2>
 
         <strong>
-          Será enviado um email para você com instruções sobre a redefinição de
-          senha.
+          An email will be sent to you with instructions on resetting your
+          password.
         </strong>
         <Form ref={logInFormRef} onSubmit={handleSubmit}>
-          <Input name="email" icon={FiMail} placeholder="Digite seu email" />
+          <Input name="email" icon={FiMail} placeholder="E-mail" />
 
-          <Button type="submit">Enviar email</Button>
+          <Button type="submit">Send email</Button>
         </Form>
 
         <LinksContainer>
           <FiArrowLeft size={20} />
-          <Link to="/login">Voltar ao login</Link>
+          <Link to="/login">Back to login</Link>
         </LinksContainer>
       </FormContainer>
       <Background />

@@ -21,23 +21,23 @@ const LogIn: React.FC = () => {
     <>
       <Header />
       <FormContainer>
-        <h2>Bem vindo(a) de volta ao Stocker!</h2>
+        <h2>Welcome back to Stocker!</h2>
 
-        <strong>Fazer login</strong>
+        <strong>Login</strong>
         <Form ref={logInFormRef} onSubmit={handleSubmit}>
-          <Input name="email" icon={FiMail} placeholder="Digite seu email" />
+          <Input name="email" icon={FiMail} placeholder="E-mail" />
           <Input
             name="password"
             type="password"
             icon={FiLock}
-            placeholder="Digite sua senha"
+            placeholder="Password"
           />
-          <Button type="submit">Entrar</Button>
+          <Button type="submit">Login</Button>
         </Form>
 
         <LinksContainer>
-          <Link to="/register">Cadastre-se</Link>
-          <Link to="/forgot-password">Esqueci a senha</Link>
+          <Link to="/register">Register</Link>
+          <Link to="/forgot-password">Forgot password?</Link>
         </LinksContainer>
       </FormContainer>
       <Background />

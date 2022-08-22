@@ -7,25 +7,25 @@ const animateOpacity = keyframes`
     opacity: 0.6;
   }
   to {
-    opacity: 1;
+    opacity: 0.975;
   }
 `;
 
 const animateUp = keyframes`
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateX(20px);
   }
   to {
-    opacity: 1;
-    transform: translateY(0px);
+    opacity: 0.975;
+    transform: translateX(0px);
   }
 `;
 
 export const FormContainer = styled.div`
-  width: 25vw;
+  width: 26vw;
   height: 50vh;
-  padding: 32px 40px;
+  padding: 24px 24px;
   border-radius: 12px;
   box-shadow: 4px 4px 5px #333;
   background: var(--color-background);
@@ -41,6 +41,7 @@ export const FormContainer = styled.div`
   animation: ${animateUp} 1s ease;
 
   h2 {
+    align-self: center;
     width: 80%;
     font-size: 28px;
     margin-bottom: 15%;
@@ -57,7 +58,7 @@ export const FormContainer = styled.div`
     flex-direction: column;
     align-items: center;
 
-    width: 90%;
+    width: 100%;
     div {
       width: 90%;
       margin-top: 16px;
@@ -82,7 +83,7 @@ export const LinksContainer = styled.div`
 
   margin-top: 28%;
   margin-left: 5%;
-  width: 80%;
+  width: 90%;
 
   a {
     text-decoration: none;

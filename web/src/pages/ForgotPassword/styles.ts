@@ -5,18 +5,18 @@ import loginBackground from '../../assets/loginBackground.jpeg';
 const animateDown = keyframes`
   from {
     opacity: 0;
-    transform: translateY(-20px);
+    transform: translateX(-20px);
   }
   to {
-    opacity: 1;
-    transform: translateY(0px);
+    opacity: 0.975;
+    transform: translateX(0px);
   }
 `;
 
 export const FormContainer = styled.div`
-  width: 25vw;
+  width: 26vw;
   height: 50vh;
-  padding: 32px 40px;
+  padding: 24px 24px;
   border-radius: 12px;
   box-shadow: 4px 4px 5px #333;
   background: var(--color-background);
@@ -32,13 +32,13 @@ export const FormContainer = styled.div`
   animation: ${animateDown} 1s ease;
 
   h2 {
+    align-self: center;
     font-size: 28px;
     margin-bottom: 15%;
     margin-left: 5%;
   }
 
   strong {
-    width: 90%;
     font-size: 16px;
     margin-left: 5%;
   }
@@ -48,8 +48,7 @@ export const FormContainer = styled.div`
     flex-direction: column;
     align-items: center;
 
-    width: 90%;
-
+    width: 100%;
     div {
       width: 90%;
       margin-top: 15%;
