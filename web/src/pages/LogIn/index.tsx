@@ -2,9 +2,11 @@ import React, { useRef, useCallback } from 'react';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import { FiMail, FiLock } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 
+import { useAuth } from '../../hooks/AuthContext';
+import { useToast } from '../../hooks/ToastContext';
 import getValidationErrors from '../../utils/getValidationErrors';
 
 import Header from '../../components/Header';
@@ -13,28 +15,56 @@ import Button from '../../components/Button';
 
 import { FormContainer, LinksContainer, Background } from './styles';
 
+interface LogInFormData {
+  email: string;
+  password: string;
+}
+
 const LogIn: React.FC = () => {
   const logInFormRef = useRef<FormHandles>(null);
 
-  const handleSubmit = useCallback(async (data: Record<string, unknown>) => {
-    try {
-      const schema = Yup.object().shape({
-        email: Yup.string()
-          .required('E-mail is required')
-          .email('E-mail must be valid'),
-        password: Yup.string().min(3, 'At leats 3 digits'),
-      });
+  const history = useHistory();
+  const { logIn } = useAuth();
+  const { addToast } = useToast();
 
-      await schema.validate(data, {
-        abortEarly: false,
-      });
-    } catch (err) {
-      const anyError: any = err;
-      const errors = getValidationErrors(anyError);
+  const handleSubmit = useCallback(
+    async (data: LogInFormData) => {
+      try {
+        const schema = Yup.object().shape({
+          email: Yup.string()
+            .required('E-mail is required')
+            .email('E-mail must be valid'),
+          password: Yup.string().required('Password is required'),
+        });
 
-      logInFormRef.current?.setErrors(errors);
-    }
-  }, []);
+        await schema.validate(data, {
+          abortEarly: false,
+        });
+
+        logIn({ email: data.email, password: data.password });
+
+        addToast({
+          type: 'success',
+          title: 'Login Successful',
+        });
+
+        history.push('/stocks');
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const anyError: any = err;
+          const errors = getValidationErrors(anyError);
+
+          logInFormRef.current?.setErrors(errors);
+        }
+        addToast({
+          type: 'error',
+          title: 'Auth error',
+          description: 'Unable to login, check your credentials.',
+        });
+      }
+    },
+    [logIn, addToast],
+  );
 
   return (
     <>
