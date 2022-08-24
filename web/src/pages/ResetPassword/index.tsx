@@ -48,12 +48,13 @@ const ResetPassword: React.FC = () => {
           const errors = getValidationErrors(anyError);
 
           logInFormRef.current?.setErrors(errors);
+        } else {
+          addToast({
+            type: 'error',
+            title: 'Reset password error',
+            description: 'Unable to reset your password, try again.',
+          });
         }
-        addToast({
-          type: 'error',
-          title: 'Reset password error',
-          description: 'Unable to reset your password, try again.',
-        });
       }
     },
     [addToast],

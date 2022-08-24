@@ -26,7 +26,7 @@ export const Container = styled.div`
   top: 0;
   right: 0;
 
-  padding: 40px 60px;
+  padding: 40px 60px 0px 0px;
 `;
 
 export const Toast = styled(animated.div)<ToastProps>`

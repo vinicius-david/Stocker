@@ -61,12 +61,13 @@ const Register: React.FC = () => {
           const errors = getValidationErrors(anyError);
 
           logInFormRef.current?.setErrors(errors);
+        } else {
+          addToast({
+            type: 'error',
+            title: 'Register error',
+            description: 'Unable to register, try again.',
+          });
         }
-        addToast({
-          type: 'error',
-          title: 'Register error',
-          description: 'Unable to register, try again.',
-        });
       }
     },
     [addToast, history],

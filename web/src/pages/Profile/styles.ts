@@ -79,13 +79,14 @@ export const FormContainer = styled.div`
 export const LinksContainer = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
 
-  margin-top: 28%;
+  margin-top: 8%;
   margin-left: 5%;
   width: 90%;
 
   a {
+    margin-left: 4%;
     text-decoration: none;
     color: var(--color-primary);
 

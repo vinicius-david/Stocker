@@ -96,9 +96,9 @@ const Home: React.FC = () => {
     });
   }, [selectedStock]);
 
-  const handleSearchSubmit = useCallback(() => {
-    console.log('ok');
-  }, []);
+  // const handleSearchSubmit = useCallback(() => {
+  //   console.log('ok');
+  // }, []);
 
   const handleChooseStocks = useCallback(() => {
     setAllStocks([

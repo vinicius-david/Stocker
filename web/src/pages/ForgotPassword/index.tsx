@@ -46,12 +46,13 @@ const ForgotPassword: React.FC = () => {
           const errors = getValidationErrors(anyError);
 
           logInFormRef.current?.setErrors(errors);
+        } else {
+          addToast({
+            type: 'error',
+            title: 'Password recover error',
+            description: 'Unable to send email with instructions, try again.',
+          });
         }
-        addToast({
-          type: 'error',
-          title: 'Password recover error',
-          description: 'Unable to send email with instructions, try again.',
-        });
       }
     },
     [addToast],

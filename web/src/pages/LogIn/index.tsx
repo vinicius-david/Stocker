@@ -55,12 +55,13 @@ const LogIn: React.FC = () => {
           const errors = getValidationErrors(anyError);
 
           logInFormRef.current?.setErrors(errors);
+        } else {
+          addToast({
+            type: 'error',
+            title: 'Auth error',
+            description: 'Unable to login, check your credentials.',
+          });
         }
-        addToast({
-          type: 'error',
-          title: 'Auth error',
-          description: 'Unable to login, check your credentials.',
-        });
       }
     },
     [logIn, addToast, history],

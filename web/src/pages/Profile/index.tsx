@@ -1,7 +1,8 @@
 import React, { useRef, useCallback } from 'react';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
-import { FiUser, FiMail, FiLock } from 'react-icons/fi';
+import { FiUser, FiMail, FiLock, FiLogOut } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import api from '../../services/api';
@@ -13,7 +14,7 @@ import Header from '../../components/Header';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
-import { FormContainer, Background } from './styles';
+import { FormContainer, Background, LinksContainer } from './styles';
 
 interface UpdateUserFormData {
   name: string;
@@ -26,7 +27,7 @@ interface UpdateUserFormData {
 const Profile: React.FC = () => {
   const profileFormRef = useRef<FormHandles>(null);
 
-  const { user, updateUser } = useAuth();
+  const { user, updateUser, logOut } = useAuth();
   const { addToast } = useToast();
 
   const handleSubmit = useCallback(
@@ -77,17 +78,21 @@ const Profile: React.FC = () => {
           const errors = getValidationErrors(anyError);
 
           profileFormRef.current?.setErrors(errors);
+        } else {
+          addToast({
+            type: 'error',
+            title: 'Update error',
+            description: 'Unable to update info, check your password.',
+          });
         }
-
-        addToast({
-          type: 'error',
-          title: 'Update error',
-          description: 'Unable to update info, check your password.',
-        });
       }
     },
     [addToast, updateUser, user.id],
   );
+
+  const handleLogout = useCallback(() => {
+    logOut();
+  }, [logOut]);
 
   return (
     <>
@@ -126,6 +131,13 @@ const Profile: React.FC = () => {
           />
           <Button type="submit">Update</Button>
         </Form>
+
+        <LinksContainer>
+          <FiLogOut size={20} />
+          <Link to="/profile" onClick={handleLogout}>
+            Logout
+          </Link>
+        </LinksContainer>
       </FormContainer>
       <Background />
     </>
