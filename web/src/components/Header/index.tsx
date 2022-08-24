@@ -32,7 +32,7 @@ const Button: React.FC = () => {
           <Link to="/">
             <FiHome size={24} />
           </Link>
-          <Link to="/login">
+          <Link to="/profile">
             <FiUser size={24} />
           </Link>
           <Link to="/stocks">

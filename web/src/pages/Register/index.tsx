@@ -37,7 +37,7 @@ const Register: React.FC = () => {
             .required('Email is required')
             .email('Email must be valid'),
           password: Yup.string().min(3, 'At least 3 digits'),
-          password_confirmation: Yup.string().oneOf(
+          passwordConfirmation: Yup.string().oneOf(
             [Yup.ref('password'), null],
             'Different passwords',
           ),
@@ -89,7 +89,7 @@ const Register: React.FC = () => {
             placeholder="Password"
           />
           <Input
-            name="password_confirmation"
+            name="passwordConfirmation"
             type="password"
             icon={FiLock}
             placeholder="Repeat password"

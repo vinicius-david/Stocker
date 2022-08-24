@@ -28,7 +28,7 @@ const ResetPassword: React.FC = () => {
       try {
         const schema = Yup.object().shape({
           password: Yup.string().min(3, 'At least 3 digits'),
-          password_confirmation: Yup.string().oneOf(
+          passwordConfirmation: Yup.string().oneOf(
             [Yup.ref('password'), null],
             'Different passwords',
           ),
@@ -76,7 +76,7 @@ const ResetPassword: React.FC = () => {
             placeholder="New password"
           />
           <Input
-            name="password_confirmation"
+            name="passwordConfirmation"
             type="password"
             icon={FiLock}
             placeholder="Repeat password"
