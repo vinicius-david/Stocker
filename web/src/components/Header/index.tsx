@@ -21,7 +21,7 @@ const Button: React.FC = () => {
 
       <HeaderContent>
         <Form ref={searchFormRef} onSubmit={handleSearchSubmit}>
-          <Input name="search" placeholder="Buscar uma ação" />
+          <Input name="search" placeholder="Search for a stock" />
 
           <button type="submit">
             <FiSearch size={24} />

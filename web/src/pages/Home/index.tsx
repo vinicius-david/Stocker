@@ -16,7 +16,7 @@ const Home: React.FC = () => (
       <ButtonsContainer>
         <ButtonItem>
           <FiTrendingUp size={24} />
-          <Link to="/stocks">Stocks / REITs</Link>
+          <Link to="/stocks">Stocks</Link>
         </ButtonItem>
         <ButtonItem>
           <FiUser size={24} />
