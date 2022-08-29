@@ -54,16 +54,76 @@ export const InfoContainer = styled.div`
     opacity: 1;
   }
 
+  .echarts-for-react {
+    min-width: 100%;
+    height: 60%;
+  }
+`;
+
+export const InfoHeader = styled.div`
+  width: 100%;
+  height: 20%;
+  margin: 8px 0;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
   h2 {
     align-self: center;
     font-size: 48px;
-    margin-bottom: 5%;
   }
+`;
 
-  .echarts-for-react {
-    min-width: 100%;
-    height: 50%;
+export const ButtonsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 360px;
+
+  button {
+    max-width: 50%;
+    max-height: 20%;
+    margin: 2%;
   }
+`;
+
+export const LinksContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: right;
+
+  button {
+    max-width: 50%;
+    max-height: 20%;
+    margin: 2%;
+
+    background: rgba(0, 0, 0, 0);
+  }
+`;
+
+export const Indicators = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  margin-top: 3%;
+`;
+
+export const Indicator = styled.div`
+  width: 10%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: right;
+
+  margin: 2%;
 `;
 
 export const Background = styled.div`

@@ -5,9 +5,10 @@ import React from 'react';
 interface ChartProps {
   x: string[];
   y: number[];
+  yStart: number;
 }
 
-const ChartComponent: React.FC<ChartProps> = ({ x, y }) => {
+const ChartComponent: React.FC<ChartProps> = ({ x, y, yStart }) => {
   const options = {
     grid: { top: 8, right: 8, bottom: 24, left: 36 },
     xAxis: {
@@ -16,12 +17,17 @@ const ChartComponent: React.FC<ChartProps> = ({ x, y }) => {
     },
     yAxis: {
       type: 'value',
+      axisLine: {
+        onZero: false,
+      },
+      min: yStart,
     },
     series: [
       {
         data: y,
         type: 'line',
         smooth: true,
+        areaStyle: { normal: {} },
       },
     ],
     tooltip: {
