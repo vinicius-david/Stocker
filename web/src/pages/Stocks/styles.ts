@@ -73,6 +73,7 @@ export const InfoHeader = styled.div`
   h2 {
     align-self: center;
     font-size: 48px;
+    margin-right: 10%;
   }
 `;
 

@@ -1,19 +1,31 @@
 import React, { useRef, useCallback } from 'react';
 import { FiHome, FiUser, FiTrendingUp, FiSearch } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 
+import { useStock } from '../../hooks/StockContext';
 import Input from '../Input';
 
 import { Header, HeaderContent, IconsContainer } from './styles';
 
+interface searchFormData {
+  search: string;
+}
+
 const Button: React.FC = () => {
   const searchFormRef = useRef<FormHandles>(null);
 
-  const handleSearchSubmit = useCallback(() => {
-    console.log('data');
-  }, []);
+  const { setStock } = useStock();
+  const history = useHistory();
+
+  const handleSearchSubmit = useCallback(
+    (input: searchFormData) => {
+      setStock(input.search);
+      history.push('/stocks');
+    },
+    [history, setStock],
+  );
 
   return (
     <Header>

@@ -6,6 +6,7 @@ import axios from 'axios';
 import api from '../../services/api';
 import { useAuth } from '../../hooks/AuthContext';
 import { useToast } from '../../hooks/ToastContext';
+import { useStock } from '../../hooks/StockContext';
 
 import Header from '../../components/Header';
 import Chart from '../../components/RChart';
@@ -57,17 +58,15 @@ interface timePropsI {
 const Home: React.FC = () => {
   const { user, updateUser } = useAuth();
   const { addToast } = useToast();
-
-  const [selectedStock, setSelectedStock] = useState('AAPL');
+  const { contextStock } = useStock();
 
   const [time, setTime] = useState('daily' as keyof timePropsI);
   const [liked, setLiked] = useState(() => {
     if (
       user &&
       user.stocks &&
-      user.stocks.findIndex(el => el === selectedStock) > -1
+      user.stocks.findIndex(el => el === contextStock) > -1
     ) {
-      console.log(true);
       return true;
     }
     return false;
@@ -145,12 +144,12 @@ const Home: React.FC = () => {
       }
     }
 
-    loadStockValues(selectedStock, time).then(results => {
+    loadStockValues(contextStock, time).then(results => {
       setX(results.x);
       setY(results.y);
       setYStart(Math.round(results.y[0] * timeProps[time].min));
     });
-  }, [selectedStock, time, addToast]);
+  }, [contextStock, time, addToast]);
 
   useEffect(() => {
     async function loadStockInfo(name: string) {
@@ -200,10 +199,10 @@ const Home: React.FC = () => {
       }
     }
 
-    loadStockInfo(selectedStock).then(results => {
+    loadStockInfo(contextStock).then(results => {
       setStockInfo(results);
     });
-  }, [selectedStock, addToast]);
+  }, [contextStock, addToast]);
 
   const handleTimeSeries = useCallback(
     (timeString: keyof timePropsI) => {
@@ -246,7 +245,7 @@ const Home: React.FC = () => {
         });
       }
     },
-    [user, addToast, liked, setLiked, updateUser],
+    [user, addToast, setLiked, updateUser],
   );
 
   return (
@@ -258,26 +257,26 @@ const Home: React.FC = () => {
             <ButtonsContainer>
               <Button
                 onClick={() => handleTimeSeries('intraday')}
-                style={{ opacity: time === 'intraday' ? 1 : 0.9 }}
+                style={{ opacity: time === 'intraday' ? 1 : 0.8 }}
               >
                 Last day
               </Button>
               <Button
                 onClick={() => handleTimeSeries('daily')}
-                style={{ opacity: time === 'daily' ? 1 : 0.9 }}
+                style={{ opacity: time === 'daily' ? 1 : 0.8 }}
               >
                 Four months
               </Button>
               <Button
                 onClick={() => handleTimeSeries('full')}
-                style={{ opacity: time === 'full' ? 1 : 0.9 }}
+                style={{ opacity: time === 'full' ? 1 : 0.8 }}
               >
                 All
               </Button>
             </ButtonsContainer>
-            <h2>{selectedStock}</h2>
+            <h2>{contextStock}</h2>
             <LinksContainer>
-              <button type="button" onClick={() => handleLike(selectedStock)}>
+              <button type="button" onClick={() => handleLike(contextStock)}>
                 {liked ? (
                   <AiFillHeart size={36} color="#c53030" />
                 ) : (

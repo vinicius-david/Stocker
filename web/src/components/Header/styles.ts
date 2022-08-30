@@ -28,6 +28,7 @@ export const HeaderContent = styled.div`
 
     div {
       width: 70%;
+      margin-top: 0;
     }
 
     button {
