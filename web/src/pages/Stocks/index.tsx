@@ -3,6 +3,10 @@ import { FiHeart, FiInfo } from 'react-icons/fi';
 import { AiFillHeart } from 'react-icons/ai';
 import axios from 'axios';
 
+import api from '../../services/api';
+import { useAuth } from '../../hooks/AuthContext';
+import { useToast } from '../../hooks/ToastContext';
+
 import Header from '../../components/Header';
 import Chart from '../../components/RChart';
 import Button from '../../components/Button';
@@ -51,10 +55,23 @@ interface timePropsI {
 }
 
 const Home: React.FC = () => {
+  const { user, updateUser } = useAuth();
+  const { addToast } = useToast();
+
   const [selectedStock, setSelectedStock] = useState('AAPL');
 
   const [time, setTime] = useState('daily' as keyof timePropsI);
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(() => {
+    if (
+      user &&
+      user.stocks &&
+      user.stocks.findIndex(el => el === selectedStock) > -1
+    ) {
+      console.log(true);
+      return true;
+    }
+    return false;
+  });
   const [x, setX] = useState([] as string[]);
   const [y, setY] = useState([] as number[]);
   const [yStart, setYStart] = useState(0);
@@ -77,42 +94,55 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     async function loadStockValues(name: string, timeString: keyof timePropsI) {
-      const response = await axios.get(
-        `https://www.alphavantage.co/query?${timeProps[timeString].function}&symbol=${name}&apikey=${process.env.API_KEY}`,
-      );
+      try {
+        let timeSeries;
+        let datesArray;
 
-      let timeSeries;
-      let datesArray;
+        const response = await axios.get(
+          `https://www.alphavantage.co/query?${timeProps[timeString].function}&symbol=${name}&apikey=${process.env.API_KEY}`,
+        );
 
-      if (time === 'intraday') {
-        timeSeries = response.data['Time Series (5min)'];
+        if (time === 'intraday') {
+          timeSeries = response.data['Time Series (5min)'];
 
-        datesArray = Object.keys(timeSeries)
+          datesArray = Object.keys(timeSeries)
+            .reverse()
+            .map(
+              date =>
+                `${date.split(':')[0].substring(11)}:${date.split(':')[1]}`,
+            );
+        } else {
+          timeSeries = response.data['Time Series (Daily)'];
+
+          datesArray = Object.keys(timeSeries)
+            .reverse()
+            .map(
+              date =>
+                `${date.split('-')[1]}/${date.split('-')[2]}/${date
+                  .split('-')[0]
+                  .substring(2, 4)}`,
+            );
+        }
+
+        const valuesArray = Object.values(timeSeries)
           .reverse()
-          .map(
-            date => `${date.split(':')[0].substring(11)}:${date.split(':')[1]}`,
-          );
-      } else {
-        timeSeries = response.data['Time Series (Daily)'];
+          .map((item: any) => Number(item['4. close']));
 
-        datesArray = Object.keys(timeSeries)
-          .reverse()
-          .map(
-            date =>
-              `${date.split('-')[1]}/${date.split('-')[2]}/${date
-                .split('-')[0]
-                .substring(2, 4)}`,
-          );
+        return {
+          x: datesArray,
+          y: valuesArray,
+        };
+      } catch (error) {
+        addToast({
+          type: 'error',
+          title: 'Request error',
+          description: 'API limit calls reached, try again 1 minute later.',
+        });
+        return {
+          x: [],
+          y: [],
+        };
       }
-
-      const valuesArray = Object.values(timeSeries)
-        .reverse()
-        .map((item: any) => Number(item['4. close']));
-
-      return {
-        x: datesArray,
-        y: valuesArray,
-      };
     }
 
     loadStockValues(selectedStock, time).then(results => {
@@ -120,36 +150,60 @@ const Home: React.FC = () => {
       setY(results.y);
       setYStart(Math.round(results.y[0] * timeProps[time].min));
     });
-  }, [selectedStock, time]);
+  }, [selectedStock, time, addToast]);
 
   useEffect(() => {
     async function loadStockInfo(name: string) {
-      const response = await axios.get(
-        `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${name}&apikey=demo${process.env.API_KEY}`,
-      );
+      try {
+        const response = await axios.get(
+          `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${name}&apikey=demo${process.env.API_KEY}`,
+        );
 
-      return {
-        peRatio: response.data.PERatio,
-        pegRatio: response.data.PEGRatio,
-        bookValue: response.data.BookValue,
-        dividendPerShare: response.data.DividendPerShare,
-        dividendYeld: response.data.DividendYield,
-        eps: response.data.EPS,
-        profitMargin: response.data.ProfitMargin,
-        operatingMargin: response.data.OperatingMarginTTM,
-        roa: response.data.ReturnOnAssetsTTM,
-        roe: response.data.ReturnOnEquityTTM,
-        grossProfit: response.data.GrossProfitTTM,
-        targetPrice: response.data.PriceToSalesRatioTTM,
-        priceToSalesRatio: response.data.AnalystTargetPrice,
-        beta: response.data.Beta,
-      };
+        return {
+          peRatio: response.data.PERatio,
+          pegRatio: response.data.PEGRatio,
+          bookValue: response.data.BookValue,
+          dividendPerShare: response.data.DividendPerShare,
+          dividendYeld: response.data.DividendYield,
+          eps: response.data.EPS,
+          profitMargin: response.data.ProfitMargin,
+          operatingMargin: response.data.OperatingMarginTTM,
+          roa: response.data.ReturnOnAssetsTTM,
+          roe: response.data.ReturnOnEquityTTM,
+          grossProfit: response.data.GrossProfitTTM,
+          targetPrice: response.data.PriceToSalesRatioTTM,
+          priceToSalesRatio: response.data.AnalystTargetPrice,
+          beta: response.data.Beta,
+        };
+      } catch (error) {
+        addToast({
+          type: 'error',
+          title: 'Request error',
+          description: 'API limit calls reached, try again 1 minute later.',
+        });
+        return {
+          peRatio: 0,
+          pegRatio: 0,
+          bookValue: 0,
+          dividendPerShare: 0,
+          dividendYeld: 0,
+          eps: 0,
+          profitMargin: 0,
+          operatingMargin: 0,
+          roa: 0,
+          roe: 0,
+          grossProfit: 0,
+          targetPrice: 0,
+          priceToSalesRatio: 0,
+          beta: 0,
+        };
+      }
     }
 
     loadStockInfo(selectedStock).then(results => {
       setStockInfo(results);
     });
-  }, [selectedStock]);
+  }, [selectedStock, addToast]);
 
   const handleTimeSeries = useCallback(
     (timeString: keyof timePropsI) => {
@@ -158,9 +212,42 @@ const Home: React.FC = () => {
     [setTime],
   );
 
-  const handleLike = useCallback(() => {
-    setLiked(!liked);
-  }, [liked, setLiked]);
+  const handleLike = useCallback(
+    async (stock: string) => {
+      if (user && user.id) {
+        const formData = {
+          userId: user.id,
+          stockId: stock,
+        };
+
+        try {
+          const response = await api.patch('/users/stock/', formData);
+
+          if (response && response.data && response.data.stocks) {
+            const findFavorite = response.data.stocks.find(
+              (el: string) => el === stock,
+            );
+            setLiked(!!findFavorite);
+          }
+
+          updateUser(response.data);
+        } catch (err) {
+          addToast({
+            type: 'error',
+            title: 'Request error',
+            description: 'Unable to like/deslike, try again later.',
+          });
+        }
+      } else {
+        addToast({
+          type: 'info',
+          title: 'Request error',
+          description: 'You must be logged to like or dislike.',
+        });
+      }
+    },
+    [user, addToast, liked, setLiked, updateUser],
+  );
 
   return (
     <>
@@ -171,26 +258,26 @@ const Home: React.FC = () => {
             <ButtonsContainer>
               <Button
                 onClick={() => handleTimeSeries('intraday')}
-                style={{ opacity: time === 'intraday' ? 1 : 0.8 }}
+                style={{ opacity: time === 'intraday' ? 1 : 0.9 }}
               >
                 Last day
               </Button>
               <Button
                 onClick={() => handleTimeSeries('daily')}
-                style={{ opacity: time === 'daily' ? 1 : 0.8 }}
+                style={{ opacity: time === 'daily' ? 1 : 0.9 }}
               >
                 Four months
               </Button>
               <Button
                 onClick={() => handleTimeSeries('full')}
-                style={{ opacity: time === 'full' ? 1 : 0.8 }}
+                style={{ opacity: time === 'full' ? 1 : 0.9 }}
               >
                 All
               </Button>
             </ButtonsContainer>
             <h2>{selectedStock}</h2>
             <LinksContainer>
-              <button type="button" onClick={handleLike}>
+              <button type="button" onClick={() => handleLike(selectedStock)}>
                 {liked ? (
                   <AiFillHeart size={36} color="#c53030" />
                 ) : (
