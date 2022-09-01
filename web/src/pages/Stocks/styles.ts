@@ -1,4 +1,5 @@
 import styled, { keyframes } from 'styled-components';
+import { animated } from 'react-spring';
 
 import homeBackground from '../../assets/stocksBackground.jpg';
 
@@ -17,7 +18,7 @@ const animateUp = keyframes`
     transform: translateX(20px);
   }
   to {
-    opacity: 0.975;
+    opacity: 1;
     transform: translateX(0px);
   }
 `;
@@ -32,13 +33,13 @@ export const Main = styled.div`
   position: relative;
 `;
 
-export const InfoContainer = styled.div`
+export const InfoContainer = styled(animated.div)`
   width: 90%;
   height: 85vh;
   padding: 24px 24px;
   border-radius: 12px;
   box-shadow: 4px 4px 5px #333;
-  background: var(--color-background);
+  background: rgba(238, 254, 255);
 
   display: flex;
   flex-direction: column;
@@ -46,7 +47,7 @@ export const InfoContainer = styled.div`
   position: absolute;
   top: 16px;
   left: 5%;
-  z-index: 2;
+  z-index: 1;
 
   animation: ${animateUp} 0.5s ease;
 
@@ -57,6 +58,33 @@ export const InfoContainer = styled.div`
   .echarts-for-react {
     min-width: 100%;
     height: 60%;
+  }
+`;
+
+export const InfoText = styled.div`
+  width: 100%;
+  height: 90%;
+  padding: 5%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  h2 {
+    align-self: center;
+    font-size: 48px;
+  }
+
+  h3 {
+    font-size: 24px;
+    text-align: justify;
+  }
+
+  div {
+    margin-top: 0;
+    margin-left: 0;
+    min-width: 100%;
   }
 `;
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { FiHeart, FiInfo } from 'react-icons/fi';
 import { AiFillHeart } from 'react-icons/ai';
+import { useSpring } from 'react-spring';
 import axios from 'axios';
 
 import api from '../../services/api';
@@ -15,6 +16,7 @@ import Button from '../../components/Button';
 import {
   Main,
   InfoContainer,
+  InfoText,
   InfoHeader,
   ButtonsContainer,
   LinksContainer,
@@ -24,6 +26,12 @@ import {
 } from './styles';
 
 interface stockInfo {
+  name: string;
+  description: string;
+  currency: string;
+  country: string;
+  sector: string;
+  industry: string;
   peRatio: number;
   pegRatio: number;
   bookValue: number;
@@ -75,6 +83,14 @@ const Home: React.FC = () => {
   const [y, setY] = useState([] as number[]);
   const [yStart, setYStart] = useState(0);
   const [stockInfo, setStockInfo] = useState({} as stockInfo);
+
+  const [flipped, setFlipped] = useState(true);
+
+  const { transform, opacity } = useSpring({
+    opacity: flipped ? 1 : 0,
+    transform: `perspective(600px) rotateX(${flipped ? 180 : 0}deg)`,
+    config: { mass: 5, tension: 500, friction: 80 },
+  });
 
   const timeProps: timePropsI = {
     intraday: {
@@ -159,6 +175,12 @@ const Home: React.FC = () => {
         );
 
         return {
+          name: response.data.Name,
+          description: response.data.Description,
+          currency: response.data.Currency,
+          country: response.data.Country,
+          sector: response.data.Sector,
+          industry: response.data.Industry,
           peRatio: response.data.PERatio,
           pegRatio: response.data.PEGRatio,
           bookValue: response.data.BookValue,
@@ -181,6 +203,12 @@ const Home: React.FC = () => {
           description: 'API limit calls reached, try again 1 minute later.',
         });
         return {
+          name: '',
+          description: '',
+          currency: '',
+          country: '',
+          sector: '',
+          industry: '',
           peRatio: 0,
           pegRatio: 0,
           bookValue: 0,
@@ -251,8 +279,40 @@ const Home: React.FC = () => {
   return (
     <>
       <Header />
-      <Main>
-        <InfoContainer style={{ opacity: 1 }}>
+      <Main onClick={() => setFlipped(state => state || !state)}>
+        <InfoContainer style={{ opacity: opacity.to(o => 1 - o), transform }}>
+          <InfoText>
+            <h2>{stockInfo.name}</h2>
+            <h3>{stockInfo.description}</h3>
+
+            <Indicators>
+              <Indicator>
+                <h3>Country</h3>
+                <p>{stockInfo.country}</p>
+              </Indicator>
+              <Indicator>
+                <h3>Currency</h3>
+                <p>{stockInfo.currency}</p>
+              </Indicator>
+              <Indicator>
+                <h3>Sector</h3>
+                <p>{stockInfo.sector}</p>
+              </Indicator>
+              <Indicator>
+                <h3>Industry</h3>
+                <p>{stockInfo.industry}</p>
+              </Indicator>
+            </Indicators>
+          </InfoText>
+        </InfoContainer>
+
+        <InfoContainer
+          style={{
+            opacity,
+            transform,
+            rotateX: '180deg',
+          }}
+        >
           <InfoHeader>
             <ButtonsContainer>
               <Button
@@ -284,7 +344,15 @@ const Home: React.FC = () => {
                 )}
               </button>
               <button type="button">
-                <FiInfo size={36} color="#000" />
+                <FiInfo
+                  size={36}
+                  color="#000"
+                  onClick={() => {
+                    setTimeout(() => {
+                      setFlipped(state => !state);
+                    }, 20);
+                  }}
+                />
               </button>
             </LinksContainer>
           </InfoHeader>
