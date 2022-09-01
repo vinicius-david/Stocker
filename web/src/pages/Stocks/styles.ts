@@ -39,7 +39,7 @@ export const InfoContainer = styled(animated.div)`
   padding: 24px 24px;
   border-radius: 12px;
   box-shadow: 4px 4px 5px #333;
-  background: rgba(238, 254, 255);
+  background: rgba(242, 254, 255);
 
   display: flex;
   flex-direction: column;
@@ -82,6 +82,9 @@ export const InfoText = styled.div`
   }
 
   div {
+    background-color: var(--color-background);
+
+    padding: 0;
     margin-top: 0;
     margin-left: 0;
     min-width: 100%;
@@ -141,18 +144,41 @@ export const Indicators = styled.div`
   justify-content: space-between;
   flex-wrap: wrap;
 
-  margin-top: 3%;
+  margin-top: 4%;
+
+  div:hover {
+    cursor: pointer;
+    box-shadow: 0px 10px 10px -10px rgba(0, 0, 0, 0.3);
+    transform: translateY(-4px);
+    transition-duration: 0.3s;
+    background-color: var(--color-primary-very-light);
+  }
+
+  div:active {
+    cursor: move;
+  }
 `;
 
-export const Indicator = styled.div`
-  width: 10%;
+export const Indicator = styled(animated.div)`
+  width: 13%;
+  min-height: 12%;
 
   display: flex;
   flex-direction: column;
   align-items: left;
   justify-content: right;
 
-  margin: 2%;
+  padding: 2%;
+  margin: 1%;
+  border-radius: 16px;
+
+  background: var(--color-text-title);
+
+  h3 {
+    text-decoration: underline;
+    font-size: 16px;
+    margin-bottom: 1%;
+  }
 `;
 
 export const Background = styled.div`

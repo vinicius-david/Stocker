@@ -2,8 +2,9 @@ import { createGlobalStyle } from 'styled-components';
 
 export default createGlobalStyle`
   :root {
-  --color-background: rgba(238, 254, 255, 0.85); // eefeff
+  --color-background: rgba(242, 254, 255, 0.85); // eefeff
   --color-background-dark: #4C585F;
+  --color-primary-very-light: #DCD2F8;
   --color-primary-light: #B4BBF0;
   --color-primary: #7777BC;
   --color-primary-dark: #555599;

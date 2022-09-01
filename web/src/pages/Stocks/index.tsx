@@ -42,9 +42,7 @@ interface stockInfo {
   operatingMargin: number;
   roa: number;
   roe: number;
-  grossProfit: number;
   targetPrice: number;
-  priceToSalesRatio: number;
   beta: number;
 }
 
@@ -191,9 +189,7 @@ const Home: React.FC = () => {
           operatingMargin: response.data.OperatingMarginTTM,
           roa: response.data.ReturnOnAssetsTTM,
           roe: response.data.ReturnOnEquityTTM,
-          grossProfit: response.data.GrossProfitTTM,
           targetPrice: response.data.PriceToSalesRatioTTM,
-          priceToSalesRatio: response.data.AnalystTargetPrice,
           beta: response.data.Beta,
         };
       } catch (error) {
@@ -219,9 +215,7 @@ const Home: React.FC = () => {
           operatingMargin: 0,
           roa: 0,
           roe: 0,
-          grossProfit: 0,
           targetPrice: 0,
-          priceToSalesRatio: 0,
           beta: 0,
         };
       }
@@ -373,7 +367,7 @@ const Home: React.FC = () => {
               <p>{stockInfo.bookValue}</p>
             </Indicator>
             <Indicator>
-              <h3>Divdend Per Share</h3>
+              <h3>Divdend P/Share</h3>
               <p>{stockInfo.dividendPerShare}</p>
             </Indicator>
             <Indicator>
@@ -389,28 +383,20 @@ const Home: React.FC = () => {
               <p>{stockInfo.profitMargin}</p>
             </Indicator>
             <Indicator>
-              <h3>Operating Margin</h3>
+              <h3>Op Margin</h3>
               <p>{stockInfo.operatingMargin}</p>
             </Indicator>
             <Indicator>
-              <h3>Return On Assets</h3>
+              <h3>ROA</h3>
               <p>{stockInfo.roa}</p>
             </Indicator>
             <Indicator>
-              <h3>Return On Equity</h3>
+              <h3>ROE</h3>
               <p>{stockInfo.roe}</p>
             </Indicator>
             <Indicator>
-              <h3>Gross Profit</h3>
-              <p>{stockInfo.grossProfit}</p>
-            </Indicator>
-            <Indicator>
-              <h3>Analyst Target Price</h3>
+              <h3>Target Price</h3>
               <p>{stockInfo.targetPrice}</p>
-            </Indicator>
-            <Indicator>
-              <h3>Price To Sales Ratio</h3>
-              <p>{stockInfo.priceToSalesRatio}</p>
             </Indicator>
             <Indicator>
               <h3>Beta</h3>
