@@ -2,16 +2,12 @@ import { DataSource } from 'typeorm';
 
 const dataSource = new DataSource({
   type: 'postgres',
-  host: 'localhost',
-  port: 5434,
-  username: 'postgres',
-  password: 'postgres',
-  database: 'stocker',
+  url: process.env.DATABASE_URL,
   entities: [
-    'src/models/*{.ts,.js}',
+    process.env.MODE === 'dev' ? 'src/models/*{.ts,.js}' : 'build/models/*{.ts,.js}',
   ],
   migrations: [
-    'src/database/migrations/*{.ts,.js}',
+    process.env.MODE === 'dev' ? 'src/database/migrations/*{.ts,.js}' : 'build/database/migrations/*{.ts,.js}',
   ],
 });
 
